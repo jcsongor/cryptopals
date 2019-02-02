@@ -36,7 +36,7 @@ class PlainTextGuesser():
     def __init__(self, scoring_strategy: ScoringStrategy):
         self._scoring_strategy = scoring_strategy
 
-    def most_likely_plaintext(self, candidates: list) -> dict:
+    def most_likely_plaintext(self, candidates: dict) -> dict:
         scored_plaintexts = SortedDict((self._scored_plaintext(*item) for item in candidates.items()))
 
         return self._get_candidate_with_highest_score(scored_plaintexts)
