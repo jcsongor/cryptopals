@@ -9,7 +9,7 @@ def decipher_with_every_key(ciphertext: str) -> dict:
     return {chr(key): sxorc(ciphertext, key) for key in range(ord('a'), ord('z'))}
 
 
-def guess_plaintext(possible_plaintexts: list, guesser: PlainTextGuesser) -> None:
+def guess_plaintext(possible_plaintexts: dict, guesser: PlainTextGuesser) -> None:
     plaintext = guesser.most_likely_plaintext(possible_plaintexts)
 
     assert plaintext['key'] == 'x'
