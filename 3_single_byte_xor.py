@@ -26,10 +26,10 @@ ciphertext = unhexlify('1b37373331363f78151b7f2b783431333d78397828372d363c78373e
 possible_plaintexts = decipher_with_every_key(ciphertext)
 
 with timer('Letter frequency strategy'):
-    guess_plaintext(possible_plaintexts, PlainTextGuesser(LetterFrequencyScoringStrategy('letters.csv')))
+    guess_plaintext(possible_plaintexts, PlainTextGuesser(LetterFrequencyScoringStrategy('data/letters.csv')))
 
 with timer('Word length strategy'):
-    guess_plaintext(possible_plaintexts, PlainTextGuesser(WordLengthScoringStrategy('words.txt')))
+    guess_plaintext(possible_plaintexts, PlainTextGuesser(WordLengthScoringStrategy('data/words.txt')))
 
 with timer('Word count strategy'):
-    guess_plaintext(possible_plaintexts, PlainTextGuesser(WordCountScoringStrategy('words.txt')))
+    guess_plaintext(possible_plaintexts, PlainTextGuesser(WordCountScoringStrategy('data/words.txt')))
