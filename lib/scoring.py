@@ -40,15 +40,15 @@ class LetterFrequencyScoringStrategy(ScoringStrategy):
         frequencies = self._letter_frequencies(text)
         return -sum([self._deviation(*frequency) for frequency in frequencies.items()])
 
-    def _parse_letter_list_line(self, line):
+    def _parse_letter_list_line(self, line: str) ->tuple:
         letter, frequency = line.lower().strip().split(',')
         return letter, float(frequency)
 
-    def _letter_frequencies(self, text):
+    def _letter_frequencies(self, text: str) -> dict:
         text_length = float(len(text))
         return {char.lower(): text.count(char)/text_length for char in set(text)}
 
-    def _deviation(self, letter, frequency):
+    def _deviation(self, letter: str, frequency: float):
         return abs(frequency-self._letters.get(letter, 0))
 
 
@@ -61,10 +61,10 @@ class PlainTextGuesser:
 
         return self._get_candidate_with_highest_score(scored_plaintexts)
 
-    def _scored_plaintext(self, key, plaintext):
+    def _scored_plaintext(self, key: str, plaintext: str) -> tuple:
         return (self._scoring_strategy.score(plaintext), (key, plaintext))
 
-    def _get_candidate_with_highest_score(self, ordered_plaintexts):
+    def _get_candidate_with_highest_score(self, ordered_plaintexts: SortedDict) -> dict:
         (_, (key, message)) = ordered_plaintexts.peekitem()
 
         return {'key': key, 'message': message}
