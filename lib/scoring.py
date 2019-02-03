@@ -31,8 +31,28 @@ class WordCountScoringStrategy(WordScoringStrategy):
         words = self._possible_words(sentence)
         return len([word for word in words if self._is_valid_word(word)])
 
+class LetterFrequencyScoringStrategy(ScoringStrategy):
+    def __init__(self, letter_list_file: str):
+        with open(letter_list_file) as lines:
+            self._letters = dict((self._parse_letter_list_line(line) for line in lines))
 
-class PlainTextGuesser():
+    def score(self, text: str) -> int:
+        frequencies = self._letter_frequencies(text)
+        return -sum([self._deviation(*frequency) for frequency in frequencies.items()])
+
+    def _parse_letter_list_line(self, line):
+        letter, frequency = line.lower().strip().split(',')
+        return letter, float(frequency)
+
+    def _letter_frequencies(self, text):
+        text_length = float(len(text))
+        return {char.lower(): text.count(char)/text_length for char in set(text)}
+
+    def _deviation(self, letter, frequency):
+        return abs(frequency-self._letters.get(letter, 0))
+
+
+class PlainTextGuesser:
     def __init__(self, scoring_strategy: ScoringStrategy):
         self._scoring_strategy = scoring_strategy
 
