@@ -10,15 +10,14 @@ from lib.scoring import \
 from lib.timer import timer
 
 
-def decipher_with_every_key(ciphertext: str) -> dict:
-    return {chr(key): sxorc(ciphertext, key) for key in range(ord('a'), ord('z'))}
+def decipher_with_every_key(ciphertext: str) -> list:
+    return [sxorc(ciphertext, key) for key in range(ord('a'), ord('z'))]
 
 
-def guess_plaintext(possible_plaintexts: dict, guesser: PlainTextGuesser) -> None:
+def guess_plaintext(possible_plaintexts: list, guesser: PlainTextGuesser) -> None:
     plaintext = guesser.most_likely_plaintext(possible_plaintexts)
 
-    assert plaintext['key'] == 'x'
-    assert plaintext['message'] == 'cOOKING\x00mc\x07S\x00LIKE\x00A\x00POUND\x00OF\x00BACON'
+    assert plaintext == 'cOOKING\x00mc\x07S\x00LIKE\x00A\x00POUND\x00OF\x00BACON'
 
 
 ciphertext = unhexlify('1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736')
