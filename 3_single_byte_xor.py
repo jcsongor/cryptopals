@@ -2,7 +2,12 @@
 
 from binascii import unhexlify
 from lib.xor import sxorc
-from lib.scoring import PlainTextGuesser, WordCountScoringStrategy, WordLengthScoringStrategy
+from lib.scoring import \
+    LetterFrequencyScoringStrategy, \
+    PlainTextGuesser, \
+    WordCountScoringStrategy, \
+    WordLengthScoringStrategy
+from lib.timer import timer
 
 
 def decipher_with_every_key(ciphertext: str) -> dict:
@@ -20,6 +25,8 @@ ciphertext = unhexlify('1b37373331363f78151b7f2b783431333d78397828372d363c78373e
 
 possible_plaintexts = decipher_with_every_key(ciphertext)
 
-guess_plaintext(possible_plaintexts, PlainTextGuesser(WordCountScoringStrategy('words.txt')))
+with timer('Word length strategy'):
+    guess_plaintext(possible_plaintexts, PlainTextGuesser(WordLengthScoringStrategy('words.txt')))
 
-guess_plaintext(possible_plaintexts, PlainTextGuesser(WordLengthScoringStrategy('words.txt')))
+with timer('Word count strategy'):
+    guess_plaintext(possible_plaintexts, PlainTextGuesser(WordCountScoringStrategy('words.txt')))
