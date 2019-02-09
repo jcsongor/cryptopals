@@ -21,6 +21,5 @@ possible_plaintexts = []
 for ciphertext in ciphertexts:
     possible_plaintexts += sxorc_with_every_possible_key(ciphertext)
 
-
 with timer('Letter frequency strategy'):
     guess_plaintext(possible_plaintexts, PlainTextGuesser(LetterFrequencyScoringStrategy('data/letters.csv')))
