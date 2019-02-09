@@ -1,17 +1,13 @@
 #!/usr/bin/env python3
 
 from binascii import unhexlify
-from lib.xor import sxorc
 from lib.scoring import \
     LetterFrequencyScoringStrategy, \
     PlainTextGuesser, \
     WordCountScoringStrategy, \
     WordLengthScoringStrategy
 from lib.timer import timer
-
-
-def decipher_with_every_key(ciphertext: str) -> list:
-    return [sxorc(ciphertext, key) for key in range(ord('a'), ord('z'))]
+from lib.xor import sxorc_with_every_possible_key
 
 
 def guess_plaintext(possible_plaintexts: list, guesser: PlainTextGuesser) -> None:
@@ -22,7 +18,7 @@ def guess_plaintext(possible_plaintexts: list, guesser: PlainTextGuesser) -> Non
 
 ciphertext = unhexlify('1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736')
 
-possible_plaintexts = decipher_with_every_key(ciphertext)
+possible_plaintexts = sxorc_with_every_possible_key(ciphertext)
 
 with timer('Letter frequency strategy'):
     guess_plaintext(possible_plaintexts, PlainTextGuesser(LetterFrequencyScoringStrategy('data/letters.csv')))
